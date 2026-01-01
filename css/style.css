@@ -1,0 +1,2117 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+/* 1. 기본 레이아웃 및 공통 설정 */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Pretendard', sans-serif; color: #333; line-height: 1.7; overflow-x: hidden;}
+li { list-style: none; }
+a { text-decoration: none; color: inherit; display: block; }
+.inner { 
+    width: 100%;       /* 기본적으로 가로를 꽉 채우되 */
+    max-width: 1200px; /* 최대 1200px까지만 커지게 함 */
+    margin: 0 auto; 
+    padding: 0 20px;   /* 모바일에서 양옆이 딱 붙지 않게 여백 추가 */
+    position: relative; 
+}
+
+/* 2. 스크롤 애니메이션 (Reveal) */
+.reveal { opacity: 0; transform: translateY(50px); transition: 0.8s ease-out; }
+.reveal.active { opacity: 1; transform: translateY(0); }
+
+/* 3. 헤더 (Header) */
+header { 
+    height: 90px; 
+    background: rgba(255,255,255,0.95); 
+    border-bottom: 1px solid #eee; 
+    position: sticky; 
+    top: 0; 
+    z-index: 1000; 
+    backdrop-filter: blur(5px); 
+}
+header .inner { display: flex; justify-content: space-between; align-items: center; height: 100%; }
+.logo a { font-size: 28px; font-weight: 900; color: #003366; letter-spacing: -1px; display: inline; }
+
+.gnb ul { display: flex; }
+.gnb ul li { position: relative; }
+
+/* [기본] 메뉴 글자 스타일 */
+.gnb ul li a { 
+    padding: 10px 25px; 
+    font-weight: 600; 
+    font-size: 16px; 
+    color: #333; 
+    transition: all 0.3s ease; 
+    display: inline-block;
+    position: relative;
+}
+
+/* [기본] 하단 선 (처음엔 가로길이 0으로 숨김) */
+.gnb ul li a::after {
+    content: ""; 
+    position: absolute; 
+    bottom: -5px; /* 글자보다 살짝 아래 배치 */
+    left: 25px; 
+    right: 25px; 
+    height: 2px; 
+    background-color: #0066cc; 
+    transform: scaleX(0); 
+    transition: transform 0.3s ease; 
+    transform-origin: center;
+}
+
+/* [호버] 마우스 올렸을 때 선이 나타남 */
+.gnb ul li a:hover { 
+    color: #0066cc; 
+}
+.gnb ul li a:hover::after { 
+    transform: scaleX(1); 
+}
+
+/* [활성화] 클릭해서 해당 페이지에 있을 때 (Active) */
+/* 선이 항상 나타나도록 scaleX(1)을 강제 적용합니다 */
+.gnb ul li a.active {
+    color: #0066cc !important; 
+    font-weight: 800;
+}
+
+.gnb ul li a.active::after {
+    transform: scaleX(1) !important; 
+    background-color: #0066cc !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+
+
+
+
+/* 4. 메인 페이지 (Visual & Features) */
+.visual { 
+    height: 700px; background: linear-gradient(135deg, #001a33 0%, #003366 100%); display: flex; align-items: center; justify-content: center; text-align: center; color: #fff; 
+}
+.visual-text .sub-title { display: block; font-size: 20px; color: #4ea5ff; margin-bottom: 15px; font-weight: 600; }
+.visual-text h2 { font-size: 60px; margin-bottom: 25px; line-height: 1.2; font-weight: 800; position: relative; padding-bottom: 20px; }
+.visual-text h2::after { 
+    content: ""; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%) scaleX(0); width: 150px; height: 4px; background: #4ea5ff; transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1); transition-delay: 0.5s;
+}
+.visual-text.reveal.active h2::after { transform: translateX(-50%) scaleX(1); }
+.visual-text h2 span { color: #4ea5ff; }
+.visual-text p { font-size: 18px; opacity: 0.9; margin-bottom: 30px; }
+
+.btn { 
+    display: inline-block; 
+    padding: 15px 45px; 
+    background: #0066cc; 
+    color: #fff; 
+    border-radius: 50px; 
+    font-weight: 700; 
+    transition: 0.3s; 
+    box-shadow: 0 4px 15px rgba(0,102,204,0.3); 
+    border: none; 
+    cursor: pointer;
+
+    /* 모바일 코드 */
+    position: relative; 
+    z-index: 10;
+    -webkit-tap-highlight-color: transparent; 
+}
+
+.btn:hover { background: #0044aa; transform: translateY(-3px); }
+
+/* 피처 섹션 레이아웃 */
+.features { 
+    display: flex; 
+    justify-content: space-between; 
+    gap: 30px; 
+    padding: 120px 0; 
+}
+
+/* 1. 기본 상태: 등장할 때는 부드럽게 */
+.f-box { 
+    flex: 1; 
+    padding: 60px 40px; 
+    background-color: #f8f9fa; 
+    text-align: center; 
+    border-radius: 20px; 
+    border: 1px solid #eee; 
+    
+    /* 처음 나타날 때의 속도 (기존 유지) */
+    transition: transform 0.6s ease, opacity 0.6s ease;
+}
+
+/* 2. 호버 상태: 버튼처럼 즉각 반응 (시간을 0.2초로 고정) */
+.f-box:hover { 
+    /* 버튼처럼 즉시 튀어 오르게 설정 */
+    transform: translateY(-15px) !important; 
+    background-color: #ffffff; 
+    border-color: #0066cc; 
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1); 
+
+    /* 🔥 핵심: 모든 변화가 버튼처럼 0.2초 안에 끝나도록 강제함 */
+    transition: transform 0.2s ease-out, background-color 0.2s ease-out, border-color 0.2s ease-out, box-shadow 0.2s ease-out !important;
+}
+
+/* 3. 모바일 터치: 더 빠르게 */
+.f-box.is-touched {
+    transform: translateY(-10px) !important; 
+    background-color: #eef6ff !important; 
+    border-color: #0066cc;
+    
+    /* 터치는 0.1초로 반응 */
+    transition: transform 0.1s ease-out, background-color 0.1s ease-out !important;
+}
+
+/* 아이콘 및 텍스트 */
+.f-box .icon { font-size: 55px; margin-bottom: 25px; }
+.f-box h3 { font-size: 24px; color: #003366; margin-bottom: 15px; }
+
+
+/* 5. 서브 페이지 공통 Hero & Content */
+.sub-hero { 
+    height: 350px; 
+    background: linear-gradient(135deg, #001a33 0%, #003366 100%); 
+    color: #fff; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center; 
+    text-align: center; 
+}
+.sub-hero h2 { font-size: 48px; font-weight: 800; margin-bottom: 15px; }
+.sub-hero p { font-size: 20px; opacity: 0.8; font-weight: 300; }
+
+/* [수정] 좌우 여백 40px 추가 (나머지는 기존 유지) */
+.sub-content { 
+    padding: 80px 40px; 
+    min-height: 300px; 
+}
+
+.sub-title-area { margin-bottom: 50px; text-align: center; }
+.sub-title-area h3 { 
+    font-size: 32px; 
+    color: #003366; 
+    display: inline-block; 
+    padding-bottom: 15px; 
+    position: relative; 
+}
+
+/* 제목 하단 선 애니메이션 */
+.sub-title-area h3::after { 
+    content: ""; 
+    position: absolute; 
+    bottom: 0; 
+    left: 50%; 
+    transform: translateX(-50%) scaleX(0); 
+    width: 60px; 
+    height: 4px; 
+    background: #0066cc; 
+    transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1); 
+    transition-delay: 0.3s;
+}
+
+
+/* 6. [제품정보] 목록 카드 */
+.p-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+}
+
+/* 기본 상태: 스크롤 등장 시에는 부드럽게 */
+.p-card { 
+    background-color: #ffffff; /* background-color로 명시하여 에러 방지 */
+    border: 1px solid #eee; 
+    border-radius: 20px; 
+    overflow: hidden; 
+    text-decoration: none; 
+    color: inherit; 
+    /* 나타날 때의 기본 속도 */
+    transition: transform 0.6s ease, opacity 0.6s ease, border-color 0.4s ease; 
+}
+
+/* 🔥 PC 호버: 버튼처럼 즉시 튀어오름 (0.2s) */
+.p-card:hover { 
+    transform: translateY(-15px) !important; 
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1); 
+    border-color: #0066cc; 
+    /* 마우스를 올리는 순간 반응 속도를 0.2초로 덮어쓰기 */
+    transition: transform 0.2s ease-out, border-color 0.2s ease-out, box-shadow 0.2s ease-out !important;
+}
+
+.p-img-box { 
+    height: 380px; 
+    background-color: #ffffff; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    overflow: hidden; 
+}
+
+.p-img-box img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: contain; 
+    padding: 40px; 
+    /* 이미지 확대 반응도 0.3초로 더 빠르게 */
+    transition: transform 0.3s ease-out; 
+}
+
+/* 호버 시 이미지 확대 */
+.p-card:hover .p-img-box img { 
+    transform: scale(1.05); 
+}
+
+.p-line { 
+    width: 80%; 
+    height: 1px; 
+    background-color: #ddd; 
+    margin: 0 auto; 
+    transform: scaleX(0); 
+    transition: transform 0.8s ease; 
+}
+
+.reveal.active .p-card .p-line { 
+    transform: scaleX(1); 
+}
+
+.p-text-box { padding: 30px 25px; text-align: center; }
+
+.p-text-box h4 { 
+    margin-bottom: 12px; 
+    font-size: 24px; 
+    color: #003366; 
+    font-weight: 700; 
+    transition: color 0.2s ease-out; 
+}
+
+.p-text-box p { font-size: 16px; color: #666; }
+
+.p-card:hover h4 { color: #0066cc; }
+
+/* 🔥 모바일 터치: 즉각 피드백 (0.1s) */
+.p-card.is-touched {
+    transform: translateY(-8px) !important;
+    border-color: #0066cc;
+    background-color: #f8fbff !important;
+    /* 터치는 손가락을 대자마자 반응해야 함 */
+    transition: transform 0.1s ease-out, background-color 0.1s ease-out !important;
+}
+
+/* 7. [회사소개] 비전 섹션 및 카드 정밀화 */
+.vision-content { text-align: center; max-width: 1000px; margin: 0 auto; }
+.vision-content .main-vision-text { display: block; font-size: 36px; color: #003366; margin-bottom: 30px; font-weight: 800; letter-spacing: -1px; }
+.vision-content .vision-desc { font-size: 19px; color: #555; line-height: 1.9; margin-bottom: 70px; word-break: keep-all; }
+.vision-content .vision-desc strong { color: #0066cc; font-weight: 700; }
+
+.vision-card-wrapper { display: flex; gap: 30px; justify-content: center; margin-bottom: 100px; }
+
+/* 기본 상태 */
+.vision-card { 
+    flex: 1; height: 250px; padding: 40px; 
+    background-color: #f9f9f9; 
+    border-radius: 20px; border: 1px solid #eee; 
+    display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+    /* 처음 나타날 때 속도 */
+    transition: transform 0.6s ease, opacity 0.6s ease, background-color 0.4s ease; 
+}
+
+.vision-card h4 { 
+    color: #003366; font-size: 26px; font-weight: 800; 
+    transition: transform 0.2s ease-out, color 0.2s ease-out; /* 제목 이동 속도 최적화 */
+    margin-bottom: 0; 
+}
+
+.vision-card .hidden-text { 
+    max-height: 0; opacity: 0; overflow: hidden; 
+    transition: max-height 0.2s ease-out, opacity 0.2s ease-out, transform 0.2s ease-out; 
+    color: #666; font-size: 17px; line-height: 1.6; 
+}
+
+.vision-card .hidden-text strong { color: #0066cc; font-weight: 700; font-size: inherit; margin: 0; display: inline; }
+
+/* 🔥 PC 호버: 버튼처럼 즉각 반응 */
+.vision-card:hover { 
+    background-color: #ffffff; 
+    border-color: #0066cc; 
+    transform: translateY(-10px) !important; 
+    box-shadow: 0 15px 30px rgba(0,102,204,0.1); 
+    /* 호버 시 전체 반응 속도 강제 단축 */
+    transition: transform 0.2s ease-out, background-color 0.2s ease-out, border-color 0.2s ease-out !important;
+}
+
+.vision-card:hover h4 { 
+    transform: translateY(-15px); 
+    margin-bottom: 10px; 
+    color: #0066cc; 
+}
+
+.vision-card:hover .hidden-text { 
+    max-height: 120px; 
+    opacity: 1; 
+    transform: translateY(-5px); 
+}
+
+/* 🔥 모바일 터치: 즉시 피드백 */
+.vision-card.is-touched {
+    transform: translateY(-5px) !important;
+    background-color: #eef6ff !important;
+    border-color: #0066cc;
+    transition: transform 0.1s ease-out, background-color 0.1s ease-out !important;
+}
+
+
+
+/* 8. [B2B] 프로세스 */
+.process-container { background: #003366; padding: 100px 40px; border-radius: 40px; color: #fff; box-shadow: 0 20px 40px rgba(0,51,102,0.2); }
+.process-wrapper { display: flex; justify-content: center; align-items: center; gap: 20px; }
+.process-item { text-align: center; flex: 1; position: relative; }
+.process-item .icon { font-size: 55px; display: block; margin-bottom: 25px; transition: 0.5s; }
+.process-item:hover .icon { transform: scale(1.3) rotate(10deg); }
+.step-line { width: 100px; height: 2px; background: rgba(255,255,255,0.2); position: relative; margin-bottom: 40px; }
+.step-line::after {
+    content: "▶"; position: absolute; right: -10px; top: 50%; transform: translateY(-50%); color: rgba(255,255,255,0.5); font-size: 14px; animation: arrowMove 1.5s infinite;
+}
+@keyframes arrowMove {
+    0% { transform: translate(-20px, -50%); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: translate(10px, -50%); opacity: 0; }
+}
+
+/* 9. [고객지원] 컨택 폼 */
+.contact-form { max-width: 800px; margin: 0 auto; background: #f8f9fa; padding: 50px; border-radius: 30px; border: 1px solid #eee; }
+.form-group { margin-bottom: 25px; }
+.form-group label { display: block; margin-bottom: 10px; font-weight: 600; color: #003366; }
+.form-group input, .form-group textarea { width: 100%; padding: 15px; border: 1px solid #ddd; border-radius: 10px; font-family: inherit; font-size: 16px; }
+.form-group textarea { height: 150px; resize: none; }
+
+/* 10. 상세페이지 전용 스타일 */
+.p-detail-hero { background: #f4f7fa; padding: 80px 0; border-bottom: 1px solid #eee; }
+.p-detail-container { display: flex; gap: 60px; align-items: flex-start; }
+.p-detail-img { flex: 1; background: #fff; border-radius: 20px; overflow: hidden; border: 1px solid #eee; }
+.p-detail-img img { width: 100%; display: block; }
+.p-detail-info { flex: 1; }
+.p-tag { display: inline-block; padding: 5px 15px; background: #0066cc; color: #fff; border-radius: 5px; font-size: 14px; margin-bottom: 15px; }
+.p-detail-info h2 { font-size: 36px; color: #003366; margin-bottom: 10px; }
+.p-detail-info .desc { font-size: 18px; color: #666; margin-bottom: 30px; line-height: 1.6; }
+.review-box { background: #fff; padding: 25px; border-radius: 15px; border-left: 5px solid #0066cc; margin-bottom: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+.review-box p { font-style: italic; color: #444; margin-bottom: 10px; font-size: 15px; }
+.section-title { font-size: 28px; color: #003366; margin: 60px 0 30px; padding-bottom: 10px; border-bottom: 2px solid #003366; position: relative; }
+.section-title::after { 
+    content: ""; position: absolute; bottom: -2px; left: 0; transform: scaleX(0); width: 100%; height: 2px; background: #003366; transform-origin: left; transition: transform 0.8s ease;
+}
+.reveal.active .section-title::after { transform: scaleX(1); }
+.target-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.target-item { background: #f9f9f9; padding: 20px; border-radius: 10px; text-align: center; font-weight: 600; border: 1px solid #eee; }
+.detail-content-box { line-height: 2; color: #444; font-size: 18px; }
+.detail-feature-boxes { display: flex; gap: 40px; margin-top: 40px; }
+.feature-box { flex: 1; padding: 30px; border-radius: 20px; }
+.feature-box.primary { background: #eef6ff; }
+.feature-box.secondary { background: #fff8ee; }
+.feature-box h4 { margin-bottom: 15px; font-size: 20px; }
+.feature-box p { font-size: 15px; color: #555; }
+.faq-item { margin-bottom: 20px; padding: 20px; background: #fff; border: 1px solid #eee; border-radius: 10px; }
+.faq-item strong { color: #0066cc; display: block; margin-bottom: 10px; font-size: 18px; }
+.info-table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #fff; }
+.info-table th, .info-table td { padding: 15px; border: 1px solid #ddd; text-align: left; }
+.info-table th { background: #f4f7fa; width: 200px; color: #003366; }
+
+/* 11. 푸터 (Footer) */
+footer { background: #eeeff1; padding: 80px 0 40px; border-top: 1px solid #ddd; margin-top: 120px; }
+.footer-info { display: flex; justify-content: flex-start; align-items: flex-start; gap: 180px; padding-left: 30px; width: 100%; }
+.info-box { flex: 0 0 auto; width: 280px; text-align: left; }
+.info-box h4 { font-size: 18px; color: #333; margin-bottom: 20px; font-weight: 700; }
+.info-box strong { font-size: 26px; color: #003366; display: block; margin-bottom: 10px; line-height: 1.2; }
+.info-box p { font-size: 15px; color: #666; line-height: 1.8; margin-bottom: 5px; word-break: keep-all; }
+
+/* SNS 스타일 및 개별 아이콘 보정 */
+.sns-list-wrapper { display: flex; flex-direction: column; gap: 12px; margin-top: 10px; }
+.sns-list-item { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #666; transition: all 0.3s ease; }
+.sns-icon { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; }
+.sns-icon img { width: 24px !important; height: 24px !important; object-fit: contain; filter: grayscale(100%); opacity: 0.6; transition: all 0.3s ease; }
+
+.sns-list-item:hover .sns-icon img { filter: grayscale(0%); opacity: 1; }
+.sns-txt { font-size: 14px; font-weight: 600; letter-spacing: 0.5px; }
+.sns-list-item:hover { color: #0066cc; transform: translateX(5px); }
+
+/* 네이버 아이콘 살짝 줄이기 */
+.naver-item .sns-icon img { transform: scale(0.85); }
+.naver-item:hover .sns-icon img { transform: scale(0.95); }
+
+/* 카카오 아이콘 살짝 키우기 */
+.kakao-item .sns-icon img { transform: scale(1.15) !important; }
+.kakao-item:hover .sns-icon img { transform: scale(1.25) !important; }
+
+/* 푸터 하단 */
+.f-bottom { width: 100%; text-align: center; padding-top: 40px; border-top: 1px solid #d1d2d6; margin-top: 40px; color: #888; font-size: 14px; line-height: 1.8; }
+
+
+
+
+/* [고객지원] 컨텍트 페이지 전용 레이아웃 */
+.contact-flex { 
+    display: flex; 
+    gap: 40px; 
+    align-items: flex-start; 
+    flex-wrap: wrap; 
+}
+
+.contact-text { 
+    flex: 1; 
+    min-width: 300px; 
+}
+
+.map-container { 
+    flex: 1.5; 
+    min-width: 300px; 
+    height: 450px; 
+    background: #eee; 
+    border-radius: 20px; 
+    overflow: hidden; 
+}
+
+.map-container iframe { 
+    width: 100%; 
+    height: 100%; 
+    border: 0; 
+}
+
+
+
+
+
+
+/* ==========================================================================
+   반응형
+   ========================================================================== */
+
+/* 1. 태블릿 대응 (1024px 이하) */
+@media (max-width: 1024px) {
+    .features, .vision-card-wrapper, .process-wrapper, .p-detail-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+    }
+
+    .f-box, .vision-card, .process-item, .p-detail-img, .p-detail-info {
+        width: 100%;
+        max-width: 600px;
+    }
+
+    
+
+    /* 제품 목록: 태블릿까지는 2열 유지 */
+    .sub-content .inner {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .footer-info {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 40px;
+        padding-left: 20px;
+    }
+    .info-box { width: calc(50% - 40px); min-width: 250px; }
+    .info-box.sns-box { width: 100%; margin-top: 20px; }
+}
+
+/* 1. 기본 상태 (PC): 줄바꿈 기능을 완전히 꺼버림 */
+.m-br {
+    display: none !important;
+}
+
+
+/* ==========================================================================
+   최종 통합 모바일 대응 (768px 이하) 
+   - 메인 타이틀 36px / 서브 타이틀 60px / 프로덕트 카드 메인과 통일 / 표 스크롤
+   ========================================================================== */
+@media screen and (max-width: 768px) {
+    /* [1. 헤더 및 줄바꿈] */
+    header { height: auto; background: #fff !important; position: relative; border-bottom: 1px solid #eee; }
+    header .inner { flex-direction: column; padding: 15px 0; }
+    .logo { margin-bottom: 10px; }
+    .gnb ul { gap: 5px; flex-wrap: wrap; justify-content: center; }
+    .gnb ul li a { color: #333 !important; font-size: 14px; padding: 5px 10px; }
+    .m-br { display: block !important; }
+
+    /* [2. 메인 비주얼 영역 (36px 대응)] */
+    .visual {
+        height: auto !important;
+        min-height: 500px;
+        padding: 100px 0 60px !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .visual-text { position: relative !important; top: 0 !important; transform: none !important; width: 100%; text-align: center; }
+    .visual-text h2 {
+        font-size: 36px !important; /* 메인 타이틀 36px */
+        line-height: 1.3 !important;
+        margin-bottom: 30px !important;
+        word-break: keep-all;
+    }
+    .visual-text .btn { display: inline-block !important; margin-bottom: 20px !important; }
+
+    /* [3. 서브 히어로 영역 (60px 대응)] */
+    .sub-hero {
+        height: auto !important;
+        min-height: 350px;
+        padding: 120px 0 60px !important;
+    }
+    .sub-hero h2 {
+        font-size: 60px !important; /* 서브 타이틀 60px */
+        line-height: 1.1 !important;
+        word-break: keep-all;
+    }
+
+    /* [4. 박스 크기 통일 (메인 피처 & 프로덕트 카드 & 비전 카드)] */
+    .features { padding: 60px 20px !important; }
+    .p-list { padding: 60px 20px !important; } /* 프로덕트 리스트 여백을 메인과 통일 */
+
+    .f-box, .p-card, .vision-card {
+        width: 100% !important;
+        max-width: 380px !important; /* 메인 박스 크기인 380px로 모두 통일 */
+        margin: 0 auto !important;
+        padding: 40px 25px !important;
+        border-radius: 20px !important;
+    }
+
+    /* 프로덕트 카드 내부 이미지 높이 보정 */
+    .p-img-box { height: 280px !important; background-color: #fff !important; }
+    .p-img-box img { padding: 30px !important; }
+
+    /* [5. 표(Table) 찌그러짐 방지 및 가로 스크롤] */
+    .info-table-wrapper {
+        width: 100% !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
+        margin: 20px 0 !important;
+    }
+    .info-table-wrapper::before {
+        content: "← 좌우로 밀어서 확인하세요 →" !important;
+        display: block !important;
+        font-size: 13px !important;
+        color: #0066cc !important;
+        text-align: right !important;
+        margin-bottom: 10px !important;
+    }
+    .info-table { min-width: 700px !important; table-layout: auto !important; }
+    .info-table th, .info-table td {
+        font-size: 16px !important;
+        padding: 15px 10px !important;
+        white-space: nowrap !important;
+    }
+
+    /* [6. 기타 페이지 보정] */
+    .contact-flex { padding: 0 20px !important; flex-direction: column; align-items: center; }
+    .contact-text, .map-container { width: 100% !important; max-width: 450px !important; }
+    .b2b-info-grid { grid-template-columns: 1fr !important; padding: 0 15px !important; }
+    .footer-info { flex-direction: column; gap: 30px; }
+
+
+    /* [추가] 상단 헤더 고정 및 흰색 배경 확장 */
+    header { position: fixed !important; top: 0; left: 0; width: 100%; height: 80px !important; z-index: 9999; display: flex !important; align-items: center; box-shadow: 0 2px 15px rgba(0,0,0,0.1); }
+    body { padding-top: 80px !important; }
+    .gnb ul li a.active::after { bottom: -10px !important; }
+
+    /* [추가] B2B 세로 화살표 복구 */
+    .process-wrapper .step-line { display: block !important; width: 2px !important; height: 40px !important; background: #0066cc !important; margin: 15px auto !important; position: relative !important; }
+    .process-wrapper .step-line::after { content: '' !important; position: absolute !important; bottom: -5px !important; left: 50% !important; transform: translateX(-50%) !important; border-left: 6px solid transparent !important; border-right: 6px solid transparent !important; border-top: 10px solid #0066cc !important; }
+
+    /* [추가] 고객지원 '찾아오시는 길' 중앙 정렬 */
+    .contact-text .sub-title-area { text-align: center !important; padding-left: 0 !important; }
+    .contact-text .sub-title-area h3::after { left: 50% !important; transform: translateX(-50%) scaleX(0) !important; }
+    .contact-text.reveal.active .sub-title-area h3::after { transform: translateX(-50%) scaleX(1) !important; }
+
+    /* [추가] 회사소개 비전 텍스트 넘침 방지 및 한줄 정렬 */
+    .vision-content { display: block !important; width: 100% !important; }
+    .main-vision-text, .vision-desc { display: block !important; width: 100% !important; text-align: left !important; box-sizing: border-box; }
+
+}
+
+
+
+/* 1. 리빌 기본 상태 */
+.reveal { 
+    opacity: 0; 
+    transform: translateY(50px); 
+    transition: 0.8s cubic-bezier(0.22, 1, 0.36, 1); 
+}
+
+/* 2. 활성화 상태 */
+.reveal.active { 
+    opacity: 1; 
+    transform: translateY(0); 
+}
+
+/* 3. [최종] 순차적 등장 딜레이 - B2B 3,4번까지 확실히 잡는 법 */
+/* nth-child(n)를 사용하여 부모 안에서의 절대적인 순서를 잡습니다. */
+
+/* 메인 특징 박스 및 제품 카드 (1, 2, 3번) */
+.f-box.reveal.active:nth-child(1),
+.p-card.reveal.active:nth-child(1) { transition-delay: 0.2s; }
+.f-box.reveal.active:nth-child(2),
+.p-card.reveal.active:nth-child(2) { transition-delay: 0.4s; }
+.f-box.reveal.active:nth-child(3),
+.p-card.reveal.active:nth-child(3) { transition-delay: 0.6s; }
+
+/* B2B 프로세스 아이템 (중간에 선이 끼어있으므로 1, 3, 5, 7번째 자식을 잡아야 함) */
+.process-item.reveal.active:nth-child(1) { transition-delay: 0.2s; } /* 바이어 응대 */
+.process-item.reveal.active:nth-child(3) { transition-delay: 0.4s; } /* 오더 관리 */
+.process-item.reveal.active:nth-child(5) { transition-delay: 0.6s; } /* 글로벌 배송 */
+.process-item.reveal.active:nth-child(7) { transition-delay: 0.8s; } /* 데이터 분석 */
+
+/* 제목 하단 선 애니메이션 기본값 */
+.sub-title-area h3::after { 
+    content: ""; 
+    position: absolute; 
+    bottom: 0; 
+    left: 50%; 
+    transform: translateX(-50%) scaleX(0); 
+    width: 60px; 
+    height: 4px; 
+    background: #0066cc; 
+    transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1); 
+    transition-delay: 0.5s; /* 글자가 나타난 후 선이 그어지도록 딜레이 */
+}
+
+/* [해결] 부모(.sub-content)나 본인(.sub-title-area)이 활성화되면 선이 나타남 */
+.reveal.active .sub-title-area h3::after,
+.sub-title-area.reveal.active h3::after { 
+    transform: translateX(-50%) scaleX(1) !important; 
+}
+
+
+/* 고객지원 페이지의 '찾아오시는 길' 제목만 왼쪽 여백 추가 */
+.contact-text .sub-title-area {
+    padding-left: 24px; /* 원하는 만큼 숫자를 키우면 더 오른쪽으로 밀립니다 */
+    margin-bottom: 30px; /* 아래 박스와의 간격 유지 */
+}
+
+/* 제목 하단 선이 왼쪽 여백에 맞춰서 정렬되도록 조정 (선택 사항) */
+.contact-text .sub-title-area h3 {
+    display: inline-block;
+}
+
+
+
+/* 하단에 추가하여 모바일 레이아웃 긴급 복구 */
+@media screen and (max-width: 768px) {
+    /* 1. 전체 컨테이너 여백 복구 */
+    .inner {
+        padding: 0 20px !important;
+    }
+
+    /* 2. 서브페이지 히어로 높이 조정 */
+    .sub-hero {
+        height: 250px !important;
+    }
+    .sub-hero h2 {
+        font-size: 28px !important;
+    }
+
+    /* 3. 비투비(B2B) 프로세스 박스 세로 정렬 및 크기 복구 */
+    .process-wrapper {
+        flex-direction: column !important;
+        align-items: center !important;
+    }
+    .process-item {
+        width: 100% !important;
+        max-width: 300px !important; /* 원래 설정하신 크기로 조절하세요 */
+        margin-bottom: 20px !important;
+    }
+    .step-line {
+        display: none !important; /* 모바일에서 선은 숨김 */
+    }
+
+    /* 4. 제품 리스트(Product) 1줄 정렬 */
+    .p-list {
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+    }
+
+    /* 5. 메인 피처 박스(Features) 복구 */
+    .features {
+        flex-direction: column !important;
+        padding: 40px 20px !important;
+    }
+    .f-box {
+        width: 100% !important;
+        margin-bottom: 20px !important;
+    }
+}
+
+/* ==========================================
+   서브 페이지 모바일 전용 복구 코드 
+   (메인 페이지 & PC 버전은 절대 건드리지 않음)
+   ========================================== */
+
+@media screen and (max-width: 768px) {
+    /* 1. 상단 메뉴 고정 (Header Fixed) */
+    header {
+        position: fixed !important;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        background: #fff; /* 배경색이 없으면 투명하게 보일 수 있어 추가 */
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    /* 헤더 고정으로 인해 가려지는 본문 영역 확보 */
+    body {
+        padding-top: 70px; /* 헤더 높이만큼 띄움 */
+    }
+
+    /* 2. 서브 페이지 타이틀 크기 및 간격 (메인 제외) */
+    /* .visual-text(메인)는 건드리지 않고 .sub-hero(서브)만 수정 */
+    .sub-hero {
+        height: 300px !important; /* 상하 간격 확보 */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .sub-hero h2 {
+        font-size: 40px !important; /* 요청하신 40사이즈 */
+        line-height: 1.2;
+        margin-bottom: 10px;
+    }
+
+    /* 3. 회사소개(Company) - 비전 레이아웃 복구 */
+    /* 타이틀 왼쪽, 내용 오른쪽 정렬 깨진 것 복구 */
+    .vision-content {
+        display: flex !important;
+        flex-direction: column !important; /* 모바일에선 세로로 쌓이게 */
+        text-align: left !important;
+        gap: 20px;
+    }
+    .main-vision-text {
+        font-size: 24px !important;
+        text-align: left !important;
+        display: block !important;
+    }
+    .vision-desc {
+        text-align: left !important;
+        font-size: 16px !important;
+        line-height: 1.6 !important;
+    }
+
+    /* 4. 제품정보(Product) & B2B 레이아웃 복구 */
+    .sub-content {
+        padding: 60px 20px !important; /* 상하 좌우 간격 원래대로 */
+    }
+    
+    /* B2B 프로세스 박스 세로 정렬 */
+    .process-wrapper {
+        flex-direction: column !important;
+        gap: 20px !important;
+    }
+    .process-item {
+        width: 100% !important;
+    }
+    .step-line {
+        display: none !important; /* 모바일 선 숨김 */
+    }
+
+    /* 제품 카드 1줄 정렬 */
+    .p-list {
+        grid-template-columns: 1fr !important;
+    }
+
+
+    /* [추가] 프로덕트 카드 가로로 넓히고 1:1 비율 조정 */
+    .p-list { padding: 40px 15px !important; } /* 좌우 여백 살짝 줄여서 가로 확보 */
+    .p-card { 
+        width: 95% !important; 
+        max-width: none !important; 
+        aspect-ratio: 1 / 1 !important; /* 가로세로 1:1 비율 강제 */
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        padding: 20px !important; /* 세로가 짧아지니 내부 패딩 축소 */
+    }
+    .p-img-box { 
+        height: 60% !important; /* 이미지 영역을 줄여서 전체 세로 길이를 억제 */
+        margin-bottom: 10px !important;
+    }
+    .p-img-box img { padding: 15px !important; } /* 이미지 크기 최적화 */
+
+
+}
+
+
+/* ==========================================
+   모바일 전용 최종 수정 (핸드폰 기준)
+   ========================================== */
+
+@media screen and (max-width: 768px) {
+    /* 1. 헤더 영역 확실히 보이게 복구 */
+    header {
+        position: fixed !important;
+        top: 0;
+        left: 0;
+        width: 100% !important;
+        height: 70px !important; /* 높이 여유있게 확보 */
+        background: #fff !important;
+        z-index: 9999 !important; /* 무조건 맨 위로 */
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        display: flex !important;
+        align-items: center !important;
+        overflow: visible !important; /* 메뉴가 잘리지 않게 */
+    }
+
+    header .inner {
+        width: 100% !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        padding: 0 20px !important;
+    }
+
+    /* 2. 로고와 메뉴 텍스트 색상 강제 지정 (안보임 방지) */
+    .logo a {
+        color: #003366 !important; /* 로고 색상 */
+        font-size: 20px !important;
+    }
+
+    .gnb ul {
+        display: flex !important;
+        gap: 15px !important;
+    }
+
+    .gnb ul li a {
+        color: #333 !important; /* 메뉴 글자색을 검정계열로 강제 */
+        font-size: 14px !important;
+        font-weight: 600 !important;
+        text-decoration: none !important;
+    }
+
+    /* 3. 파란색 활성선 (헤더 안쪽 바닥에 밀착) */
+    .gnb ul li a.active {
+        color: #0066cc !important;
+    }
+
+    .gnb ul li a::after {
+        content: "";
+        position: absolute;
+        bottom: -5px; /* 글자 바로 아래 */
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: #0066cc;
+        transform: scaleX(0);
+        transition: 0.3s;
+    }
+
+    .gnb ul li a.active::after {
+        transform: scaleX(1);
+    }
+
+    /* 4. 헤더가 본문을 가리지 않게 전체 밀기 */
+    body {
+        padding-top: 70px !important;
+    }
+}
+
+
+@media screen and (max-width: 768px) {
+    /* B2B 프로세스 화살표 복구 및 디자인 */
+    .process-wrapper .step-line {
+        display: block !important; /* 숨겨진 선 다시 보이기 */
+        width: 2px !important;
+        height: 40px !important; /* 화살표 선 길이 */
+        background: #0066cc !important; /* 파란색 */
+        margin: 15px auto !important; /* 박스 사이 간격 */
+        position: relative !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+
+    /* 화살표 머리 모양 (삼각형) 추가 */
+    .process-wrapper .step-line::after {
+        content: '' !important;
+        position: absolute !important;
+        bottom: -5px !important; /* 선 끝에 배치 */
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        border-left: 6px solid transparent !important;
+        border-right: 6px solid transparent !important;
+        border-top: 10px solid #0066cc !important; /* 아래를 향하는 삼각형 */
+    }
+}
+
+@media screen and (max-width: 768px) {
+    /* 고객지원 - 찾아오시는 길 섹션 전체 정렬 */
+    .contact-text .sub-title-area {
+        text-align: center !important; /* 텍스트 중앙 */
+        padding-left: 0 !important;    /* 기존에 줬던 왼쪽 여백 제거 */
+        margin-left: auto !important;
+        margin-right: auto !important;
+        width: 100% !important;
+    }
+
+    /* 제목 하단 선(::after) 중앙 정렬 */
+    .contact-text .sub-title-area h3 {
+        display: inline-block !important; /* 글자 크기만큼만 영역 잡기 */
+        position: relative !important;
+    }
+
+    .contact-text .sub-title-area h3::after {
+        left: 50% !important; /* 부모인 h3의 정중앙으로 이동 */
+        transform: translateX(-50%) scaleX(0) !important; /* 중앙에서 시작 */
+        margin-left: 0 !important;
+    }
+
+    /* 리빌 활성화 시 선이 중앙에서 양옆으로 그어짐 */
+    .contact-text.reveal.active .sub-title-area h3::after {
+        transform: translateX(-50%) scaleX(1) !important;
+    }
+
+    /* [추가] 회사소개 비전 텍스트 넘침 방지 및 세로 한 줄 정렬 */
+    .vision-content { 
+        display: block !important; 
+        width: 100% !important; 
+        padding: 0 !important;
+    }
+    
+    .main-vision-text, .vision-desc { 
+        display: block !important; 
+        width: 100% !important; 
+        text-align: left !important; 
+        box-sizing: border-box !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding: 0 5px !important; /* 좌우 여백 살짝 */
+    }
+
+    .main-vision-text {
+        margin-bottom: 20px !important; /* 제목과 설명 사이 간격 */
+    }
+
+    /* 카드 래퍼도 넘치지 않게 가로폭 제한 */
+    .vision-card-wrapper {
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 20px !important;
+    }
+
+
+/* 회사소개 페이지 텍스트 넘침 강제 수정 */
+    .vision-content { display: block !important; width: 100% !important; overflow: hidden !important; }
+    .main-vision-text { display: block !important; width: 100% !important; font-size: 24px !important; margin-bottom: 20px !important; word-break: keep-all !important; }
+    .vision-desc { display: block !important; width: 100% !important; margin-left: 0 !important; word-break: keep-all !important; }
+    .vision-card-wrapper { display: block !important; width: 100% !important; }
+
+
+/* 회사소개 페이지 텍스트 넘침 강제 수정 */
+    .vision-content { display: block !important; width: 100% !important; overflow: hidden !important; }
+    .main-vision-text { display: block !important; width: 100% !important; font-size: 24px !important; margin-bottom: 20px !important; word-break: keep-all !important; }
+    .vision-desc { display: block !important; width: 100% !important; margin-left: 0 !important; word-break: keep-all !important; }
+    .vision-card-wrapper { display: block !important; width: 100% !important; }
+
+
+}
+
+
+/* ==========================================================================
+   최종 통합 모바일 대응 (768px 이하 전용)
+   - 메인/PC 버전 절대 수정 금지
+   ========================================================================== */
+@media screen and (max-width: 768px) {
+    /* [1. 상단 헤더 고정 및 배경 높이 확장] */
+    header { 
+        position: fixed !important; 
+        top: 0; 
+        left: 0; 
+        width: 100% !important; 
+        height: 100px !important; /* 배경 높이 확장 */
+        background: #fff !important; 
+        z-index: 9999 !important; 
+        display: flex !important; 
+        align-items: center !important; 
+        box-shadow: 0 2px 15px rgba(0,0,0,0.1); 
+        overflow: hidden !important; 
+    }
+    header .inner { 
+        height: 100% !important; 
+        display: flex !important; 
+        justify-content: space-between !important; 
+        align-items: center !important; 
+        padding: 0 20px !important; 
+    }
+    body { padding-top: 100px !important; } /* 헤더 높이만큼 본문 밀기 */
+
+    /* [2. 회사소개 - 비전 텍스트 한 줄 정렬 및 넘침 방지] */
+    .vision-content { display: block !important; width: 100% !important; overflow: hidden !important; }
+    .main-vision-text { 
+        display: block !important; 
+        width: 100% !important; 
+        font-size: 24px !important; 
+        margin-bottom: 20px !important; 
+        word-break: keep-all !important; 
+        text-align: left !important; 
+    }
+    .vision-desc { 
+        display: block !important; 
+        width: 100% !important; 
+        margin-left: 0 !important; 
+        word-break: keep-all !important; 
+        text-align: left !important; 
+    }
+    .vision-card-wrapper { display: block !important; width: 100% !important; }
+    .vision-card { width: 100% !important; max-width: none !important; margin-bottom: 20px !important; }
+
+    /* [3. 제품정보 - 카드 가로 확장 및 1:1 비율] */
+    .p-list { padding: 40px 15px !important; }
+    .p-card { 
+        width: 95% !important; 
+        max-width: none !important; 
+        aspect-ratio: 1 / 1 !important; 
+        margin: 0 auto 20px !important; 
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+    }
+    .p-img-box { height: 60% !important; }
+
+    /* [4. B2B - 세로 화살표 및 방향 전환] */
+    .process-wrapper .step-line { 
+        display: block !important; 
+        width: 2px !important; 
+        height: 40px !important; 
+        background: #0066cc !important; 
+        margin: 15px auto !important; 
+        position: relative !important; 
+    }
+    .process-wrapper .step-line::after { 
+        content: '' !important; 
+        position: absolute !important; 
+        bottom: -5px !important; 
+        left: 50% !important; 
+        transform: translateX(-50%) !important; 
+        border-left: 6px solid transparent !important; 
+        border-right: 6px solid transparent !important; 
+        border-top: 10px solid #0066cc !important; 
+    }
+
+    /* [5. 고객지원 - '찾아오시는 길' 중앙 정렬] */
+    .contact-text .sub-title-area { text-align: center !important; padding-left: 0 !important; }
+    .contact-text .sub-title-area h3::after { 
+        left: 50% !important; 
+        transform: translateX(-50%) scaleX(0) !important; 
+    }
+    .contact-text.reveal.active .sub-title-area h3::after { 
+        transform: translateX(-50%) scaleX(1) !important; 
+    }
+    .map-container { width: 95% !important; margin: 20px auto !important; }
+
+    /* [추가] B2B 화살표 상하 애니메이션 */
+    .process-wrapper .step-line::after {
+        animation: arrowUpDown 1.5s infinite; /* 1.5초마다 무한 반복 */
+    }
+
+    @keyframes arrowUpDown {
+        0% { transform: translateX(-50%) translateY(0); opacity: 1; }
+        50% { transform: translateX(-50%) translateY(10px); opacity: 0.5; } /* 아래로 10px 이동 */
+        100% { transform: translateX(-50%) translateY(0); opacity: 1; }
+    }
+
+    /* [추가] 프로덕트 카드 내 이미지 크기 최대화 */
+    .p-img-box { 
+        height: 75% !important; /* 이미지 영역 비중 대폭 확대 */
+        width: 100% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        margin-bottom: 5px !important;
+    }
+    
+    .p-img-box img { 
+        width: 90% !important; /* 가로 꽉 차게 */
+        height: 90% !important; /* 세로 꽉 차게 */
+        object-fit: contain !important; /* 비율 깨지지 않게 */
+        padding: 0 !important; /* 기존 패딩 제거해서 크기 확보 */
+    }
+
+    /* [추가] 프로덕트 카드 하단 텍스트 크기 미세 조정 */
+    .p-info h4 { 
+        font-size: 16px !important; /* 기존보다 1~2px 정도 아주 살짝만 축소 */
+        margin-top: 5px !important;
+        letter-spacing: -0.5px !important; /* 가독성을 위해 자간 살짝 조절 */
+    }
+    .p-info p { 
+        font-size: 13px !important; /* 설명글도 아주 살짝만 축소 */
+        opacity: 0.8; /* 시각적으로 덜 강조되게 처리 */
+    }
+
+    /* [추가] 서브 히어로(남색 배경) 영역 타이틀 및 텍스트 가운데 정렬 */
+    .sub-hero .reveal {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important; /* 가로 중앙 */
+        justify-content: center !important;
+        text-align: center !important; /* 텍스트 자체 중앙 */
+        width: 100% !important;
+    }
+
+    .sub-hero h2 {
+        width: 100% !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+
+    .sub-hero p {
+        width: 100% !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+
+    /* [복구] 모바일 메뉴 하단 파란색 활성선 */
+    .gnb ul li a {
+        position: relative !important;
+    }
+
+    .gnb ul li a.active::after {
+        content: "" !important;
+        position: absolute !important;
+        bottom: -2px !important; /* 흰색 배경을 벗어나지 않도록 안쪽 하단에 밀착 */
+        left: 0 !important;
+        width: 100% !important;
+        height: 3px !important;
+        background: #0066cc !important;
+        transform: scaleX(1) !important; /* 강제로 보이게 설정 */
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+
+
+}
+
+
+
+/* 프로덕트 카드 이미지 아래 가로선 (가운데 정렬, 양옆 비움) */
+.p-img-box {
+    position: relative !important;
+    border-bottom: none !important; /* 기존에 혹시 들어갔을 전체 선 제거 */
+    margin-bottom: 20px !important;
+}
+
+.p-img-box::after {
+    content: "" !important;
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important; /* 가운데 정렬 */
+    width: 80% !important; /* 양옆을 비우기 위해 80%만 설정 */
+    height: 1px !important;
+    background-color: #ddd !important; /* 지시하신 연한 회색 */
+}
+
+/* 모바일 간격 미세 조정 */
+@media screen and (max-width: 768px) {
+    .p-img-box::after {
+        width: 70% !important; /* 모바일에서는 양옆을 조금 더 비움 */
+    }
+    /* [모바일 전용] 프로덕트 카드 2:1 비율 배치 (이미지 강조) */
+    .p-card {
+        width: 95% !important;
+        max-width: none !important;
+        aspect-ratio: 1 / 1 !important; /* 전체는 1:1 정사각형 유지 */
+        display: flex !important;
+        flex-direction: column !important;
+        padding: 0 !important; /* 내부 여백 제거해서 이미지 꽉 채움 */
+        overflow: hidden !important;
+    }
+
+    /* 상단 2/3 이미지 영역 */
+    .p-img-box {
+        height: 66% !important; /* 이미지 영역을 2/3로 크게 설정 */
+        width: 100% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        background: #fff !important;
+        padding: 10px !important; /* 이미지와 테두리 사이 아주 살짝 여백 */
+        margin-bottom: 0 !important;
+        position: relative !important;
+    }
+
+    .p-img-box img {
+        width: 90% !important;
+        height: 90% !important;
+        object-fit: contain !important;
+    }
+
+    /* 이미지 바로 아래 구분선 (중앙 위치) */
+    .p-img-box::after {
+        content: "" !important;
+        position: absolute !important;
+        bottom: 0 !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        width: 50% !important; /* 가로 길이 절반 정도 */
+        height: 1px !important;
+        background-color: #ddd !important;
+    }
+
+    /* 하단 1/3 텍스트 영역 */
+    .p-info {
+        height: 34% !important; /* 나머지 1/3 영역 */
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+        text-align: center !important;
+        padding: 10px !important;
+    }
+
+    .p-info h4 { font-size: 15px !important; margin-bottom: 5px !important; }
+    .p-info p { font-size: 12px !important; }
+
+
+    /* [모바일] 헤더 배경 확장 및 파란선 애니메이션 복구 */
+    header { 
+        height: 120px !important; /* 배경 높이를 120px로 충분히 늘림 */
+        overflow: visible !important; /* 선이 짤리지 않게 넘침 허용 */
+        background: #fff !important;
+        border-bottom: 1px solid #eee;
+    }
+    
+    body { padding-top: 120px !important; }
+
+    .gnb ul li a {
+        position: relative !important;
+        padding: 10px 5px !important;
+        display: inline-block !important;
+    }
+
+    /* 파란선 복구 및 애니메이션 */
+    .gnb ul li a.active::after {
+        content: "" !important;
+        position: absolute !important;
+        bottom: 0 !important; /* 하얀 배경 안쪽 하단에 배치 */
+        left: 0 !important;
+        width: 100% !important;
+        height: 3px !important;
+        background: #0066cc !important;
+        transform-origin: center;
+        animation: lineGrow 0.4s ease-out forwards; /* 나타나는 애니메이션 */
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+
+    @keyframes lineGrow {
+        0% { transform: scaleX(0); opacity: 0; }
+        100% { transform: scaleX(1); opacity: 1; }
+    }
+
+
+    /* [회사소개] 모바일 세로 정렬 및 텍스트 최적화 */
+    .vision-content { 
+        display: flex !important; 
+        flex-direction: column !important; /* 무조건 세로로 쌓기 */
+        align-items: flex-start !important; 
+        gap: 30px !important; /* 요소 사이 간격 */
+    }
+
+    .main-vision-text { 
+        display: block !important; 
+        width: 100% !important; 
+        font-size: 24px !important; 
+        line-height: 1.4 !important;
+        margin-bottom: 10px !important;
+        word-break: keep-all !important; /* 단어 단위 줄바꿈 */
+    }
+
+    .vision-desc { 
+        display: block !important; 
+        width: 100% !important; 
+        margin-left: 0 !important; /* PC에서 줬던 왼쪽 여백 제거 */
+        font-size: 15px !important;
+        line-height: 1.6 !important;
+    }
+
+    .vision-card-wrapper { 
+        display: flex !important; 
+        flex-direction: column !important; /* 카드들도 세로로 쌓기 */
+        width: 100% !important; 
+        gap: 20px !important;
+        margin-top: 20px !important;
+    }
+
+    .vision-card {
+        width: 100% !important; /* 카드가 가로로 꽉 차게 */
+        max-width: none !important;
+    }
+
+
+    /* 모바일에서 메뉴 클릭이 더 잘 되도록 개선 (선택 사항) */
+    @media screen and (max-width: 768px) {
+        .gnb ul li a {
+            padding: 15px 8px !important; /* 위아래 클릭 범위를 조금 더 넓힘 */
+            font-size: 15px !important;    /* 가독성을 위해 1px 키움 */
+        }
+    }
+
+
+    /* PC용 BR 태그 숨기기 */
+    .vision-desc br {
+        display: none !important;
+    }
+    /* 모바일 전용 BR 태그만 보이기 */
+    .vision-desc br.m-br {
+        display: block !important;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    /* 1. 제목과 본문을 감싸는 컨테이너를 가로가 아닌 세로 정렬로 강제 전환 */
+    .vision-content {
+        display: flex !important;
+        flex-direction: column !important; /* 가로(row)에서 세로(column)로 변경 */
+        align-items: flex-start !important;
+        gap: 0 !important;
+    }
+
+    /* 2. "ZERO BEAM 비전" 제목 영역 */
+    .sub-title-area {
+        width: 100% !important;
+        margin-bottom: 30px !important; /* 아래 내용과의 간격 */
+        text-align: left !important;
+    }
+
+    /* 3. "국가가 검증한..." 메인 강조 텍스트 */
+    .main-vision-text {
+        display: block !important;
+        width: 100% !important;
+        font-size: 24px !important; /* 캡처에서 너무 커보인다면 22px로 조절 */
+        margin-bottom: 20px !important;
+        line-height: 1.4 !important;
+        word-break: keep-all !important;
+    }
+
+    /* 4. 본문 설명 텍스트 */
+    .vision-desc {
+        width: 100% !important;
+        margin-left: 0 !important; /* 왼쪽 여백 제거 */
+        font-size: 15px !important;
+        line-height: 1.6 !important;
+        text-align: left !important;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    /* [1. 상단 메뉴 파란색 가로선 위치 조정] */
+    .gnb ul li a.active::after {
+        bottom: 5px !important; /* 기존 0에서 5px로 올려서 텍스트에 더 밀착 */
+        height: 2px !important;  /* 선이 너무 두꺼우면 답답해 보일 수 있어 2px 추천 */
+    }
+
+    /* [2. 회사소개 레이아웃 붕괴 해결] */
+    /* 부모 컨테이너에서 가로 배치(flex)를 해제하고 세로로 쌓음 */
+    .sub-content .inner {
+        display: block !important; 
+    }
+
+    /* "ZERO BEAM 비전" 타이틀 영역 */
+    .sub-title-area {
+        width: 100% !important;
+        text-align: left !important;
+        padding: 0 !important;
+        margin-bottom: 20px !important; /* 타이틀 아래 여백 */
+    }
+
+    /* 본문 전체 감싸는 영역 */
+    .vision-content {
+        display: block !important; /* flex 해제 */
+        width: 100% !important;
+        padding: 0 !important;
+    }
+
+    /* "국가가 검증한..." 강조 텍스트 */
+    .main-vision-text {
+        display: block !important;
+        width: 100% !important;
+        font-size: 22px !important; /* 가로 폭에 맞춰 폰트 미세 조정 */
+        line-height: 1.4 !important;
+        margin-bottom: 15px !important;
+        word-break: keep-all !important; /* 단어 단위 줄바꿈으로 가독성 확보 */
+    }
+
+    /* 일반 설명 텍스트 */
+    .vision-desc {
+        display: block !important;
+        width: 100% !important;
+        margin-left: 0 !important; /* PC용 여백 완전 제거 */
+        font-size: 15px !important;
+        line-height: 1.6 !important;
+        text-align: justify !important; /* 양쪽 정렬로 깔끔하게 */
+    }
+}
+
+@media screen and (max-width: 768px) {
+    /* [1. 메뉴 파란색 활성선 위치 상단 이동] */
+    .gnb ul li a.active::after {
+        bottom: 12px !important; /* 텍스트 쪽으로 바짝 올림 */
+        height: 2px !important;
+        width: 100% !important;
+    }
+
+    /* [2. B2B 화살표 애니메이션 복구] */
+    .process-wrapper .step-line {
+        display: block !important; /* 화살표 선이 보이도록 강제 */
+        width: 2px !important;
+        height: 30px !important; /* 모바일에서는 길이를 살짝 줄임 */
+        background: #0066cc !important;
+        margin: 10px auto !important; /* 위아래 여백 */
+        position: relative !important;
+        overflow: visible !important; /* 가상 요소가 잘리지 않게 */
+    }
+
+    .process-wrapper .step-line::after {
+        content: '' !important;
+        position: absolute !important;
+        bottom: -8px !important; /* 선 끝에 화살표 촉 배치 */
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        border-left: 5px solid transparent !important;
+        border-right: 5px solid transparent !important;
+        border-top: 8px solid #0066cc !important; /* 화살표 모양 생성 */
+        
+        /* 애니메이션 재정의 */
+        animation: arrowUpDown 1.2s infinite ease-in-out !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+
+    /* 애니메이션 키프레임 (안전하게 재선언) */
+    @keyframes arrowUpDown {
+        0% { transform: translateX(-50%) translateY(0); opacity: 1; }
+        50% { transform: translateX(-50%) translateY(8px); opacity: 0.6; }
+        100% { transform: translateX(-50%) translateY(0); opacity: 1; }
+    }
+
+    /* [3. 회사소개 텍스트 겹침 완전 해결] */
+    .vision-content, .sub-content .inner {
+        display: flex !important;
+        flex-direction: column !important; /* 무조건 세로 한 줄 배치 */
+        align-items: flex-start !important;
+        width: 100% !important;
+    }
+}
+
+
+@media screen and (max-width: 768px) {
+    /* [1. 메뉴 파란선 위치 대폭 수정] */
+    .gnb ul li a.active::after {
+        bottom: 15px !important; /* 글자 하단에 더 가깝게 위로 올림 */
+        height: 3px !important;
+        transform: scaleX(1) !important;
+        opacity: 1 !important;
+    }
+
+    /* [2. 회사소개: 텍스트 세로 찢어짐 원천 차단] */
+    /* 부모 컨테이너들의 모든 flex와 너비 제한을 해제합니다. */
+    .sub-content, 
+    .sub-content .inner, 
+    .vision-content {
+        display: block !important; /* flex를 완전히 버리고 block으로 전환 */
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 20px !important; /* 좌우 여백 확보 */
+        margin: 0 !important;
+        float: none !important; /* 혹시 모를 float 제거 */
+    }
+
+    .sub-title-area {
+        display: block !important;
+        width: 100% !important;
+        margin-bottom: 20px !important;
+        text-align: left !important;
+    }
+
+    .main-vision-text {
+        display: block !important;
+        width: 100% !important;
+        font-size: 24px !important;
+        line-height: 1.4 !important;
+        word-break: keep-all !important; /* 단어 단위 줄바꿈 */
+        white-space: normal !important; /* 줄바꿈 허용 */
+    }
+
+    .vision-desc {
+        display: block !important;
+        width: 100% !important;
+        margin-left: 0 !important;
+        font-size: 16px !important;
+        line-height: 1.6 !important;
+    }
+
+    /* [3. B2B 화살표 애니메이션 강제 활성화] */
+    /* 모바일에서 step-line이 display:none 인지 확인 후 강제 표시 */
+    .process-wrapper .step-line {
+        display: block !important;
+        visibility: visible !important;
+        width: 2px !important;
+        height: 40px !important;
+        background-color: #0066cc !important;
+        margin: 20px auto !important;
+        position: relative !important;
+    }
+
+    .process-wrapper .step-line::after {
+        content: '' !important;
+        display: block !important;
+        position: absolute !important;
+        bottom: -10px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        border-left: 6px solid transparent !important;
+        border-right: 6px solid transparent !important;
+        border-top: 10px solid #0066cc !important;
+        
+        /* 애니메이션 다시 선언 */
+        animation: arrowUpDown 1.5s infinite ease-in-out !important;
+    }
+}
+
+/* 애니메이션 정의가 미디어쿼리 밖이나 안에 중복되어도 상관없도록 재선언 */
+@keyframes arrowUpDown {
+    0% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(10px); }
+    100% { transform: translateX(-50%) translateY(0); }
+}
+
+
+@media screen and (max-width: 768px) {
+    /* [1. 상단 메뉴 파란색 활성선 위치 조정] */
+    .gnb ul li a.active::after {
+        bottom: 12px !important; /* 텍스트 쪽으로 더 위로 올림 */
+        height: 3px !important;
+        left: 0 !important;
+        width: 100% !important;
+    }
+
+    /* [2. 회사소개 모든 요소 중앙 정렬] */
+    .sub-content .inner,
+    .vision-content {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important; /* 모든 자식 요소를 가로 중앙으로 */
+        justify-content: center !important;
+        width: 100% !important;
+        padding: 0 20px !important;
+        text-align: center !important; /* 텍스트 자체도 중앙 정렬 */
+    }
+
+    /* 타이틀 영역 중앙 정렬 */
+    .sub-title-area {
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important; 
+        margin-bottom: 30px !important;
+    }
+
+    .sub-title-area h3 {
+        text-align: center !important;
+    }
+
+    /* 제목 아래 파란색 짧은 선 중앙 정렬 */
+    .sub-title-area h3::after {
+        left: 50% !important;
+        transform: translateX(-50%) !important; /* 왼쪽 쏠림 방지 */
+        margin-left: 0 !important;
+    }
+
+    /* 메인 강조 텍스트 & 본문 중앙 정렬 */
+    .main-vision-text, .vision-desc {
+        width: 100% !important;
+        max-width: 100% !important;
+        text-align: center !important; /* 왼쪽 쏠림 해결 */
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        word-break: keep-all !important;
+    }
+
+    /* 비전 카드 중앙 정렬 */
+    .vision-card-wrapper {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        width: 100% !important;
+        gap: 20px !important;
+    }
+
+    .vision-card {
+        width: 90% !important; /* 화면 가로에 꽉 차지 않게 살짝 여백 */
+        margin: 0 auto !important;
+    }
+
+    /* [3. B2B 화살표 애니메이션 강제 코드] */
+    .process-wrapper .step-line {
+        display: block !important;
+        margin: 20px auto !important;
+        overflow: visible !important;
+    }
+    
+    .process-wrapper .step-line::after {
+        animation: arrowUpDown 1.5s infinite ease-in-out !important;
+    }
+}
+
+
+@media screen and (max-width: 768px) {
+    /* [1. 헤더 흰색 배경 높이 확장] */
+    header {
+        height: 140px !important; /* 기존보다 더 넉넉하게 높임 */
+        background: #fff !important;
+        display: flex !important;
+        align-items: flex-start !important; /* 로고/메뉴를 위쪽으로 붙임 */
+        padding-top: 15px !important;
+        border-bottom: 1px solid #eee !important;
+    }
+
+    /* 헤더가 길어진 만큼 본문이 가려지지 않게 밀어주기 */
+    body { 
+        padding-top: 140px !important; 
+    }
+
+    /* [2. 메뉴 파란색 선 위치 고정 및 애니메이션 수정] */
+    .gnb ul li a {
+        padding: 10px 5px !important;
+        display: inline-block !important;
+    }
+
+    .gnb ul li a.active::after {
+        content: "" !important;
+        position: absolute !important;
+        bottom: 0 !important; /* 아래에 딱 고정 */
+        left: 0 !important;
+        width: 100% !important;
+        height: 3px !important;
+        background: #0066cc !important;
+        
+        /* 위로 올라오는 애니메이션 대신 제자리에서 나타나기만 함 */
+        visibility: visible !important;
+        opacity: 1 !important;
+        transform: scaleX(1) !important; 
+        animation: fadeIn 0.3s ease-in-out !important; 
+    }
+
+    /* 제자리에서 부드럽게 나타나는 효과 */
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    /* [3. 회사소개 정중앙 정렬 유지] */
+    .sub-content .inner,
+    .vision-content,
+    .sub-title-area {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+        width: 100% !important;
+    }
+
+    /* 타이틀 밑 파란선 중앙 고정 */
+    .sub-title-area h3::after {
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+    }
+}
+
+
+@media screen and (max-width: 768px) {
+    /* 1. 화살표 기둥(선) 설정 */
+    .process-wrapper .step-line {
+        display: block !important;    /* 숨김 방지 */
+        visibility: visible !important;
+        width: 2px !important;
+        height: 50px !important;      /* PC보다 짧게 조절 */
+        background-color: #0066cc !important;
+        margin: 20px auto !important; /* 중앙 정렬 */
+        position: relative !important;
+        overflow: visible !important;  /* 애니메이션이 잘리지 않게 함 */
+    }
+
+    /* 2. 화살표 촉(삼각형) 및 애니메이션 */
+    .process-wrapper .step-line::after {
+        content: '' !important;
+        display: block !important;
+        position: absolute !important;
+        bottom: -10px !important;     /* 선 아래쪽에 배치 */
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        border-left: 6px solid transparent !important;
+        border-right: 6px solid transparent !important;
+        border-top: 10px solid #0066cc !important; /* 파란색 화살표 모양 */
+        
+        /* PC와 동일한 애니메이션 이름과 설정 부여 */
+        animation: arrowUpDown 1.5s infinite ease-in-out !important;
+    }
+}
+
+/* 3. 애니메이션 키프레임 (미디어 쿼리 밖이나 안 어디든 한 번만 있으면 됨) */
+@keyframes arrowUpDown {
+    0% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(10px); } /* 10px만큼 아래로 이동 */
+    100% { transform: translateX(-50%) translateY(0); }
+}
+
+
+/* 기존 코드를 모두 무시하고 최하단에서 덮어쓰기 위해 작성됨 */
+@media screen and (max-width: 768px) {
+    /* [1. 상단 메뉴: 파란색 선 위치 고정 (올라오는 움직임 제거)] */
+    .gnb ul li a.active::after {
+        content: "" !important;
+        position: absolute !important;
+        bottom: 0 !important; /* 아래에 고정 */
+        left: 0 !important;
+        transform: none !important; /* 아래에서 위로 올라오는 애니메이션 강제 해제 */
+        animation: none !important;  /* 툭 튀어나오는 효과 제거 */
+        width: 100% !important;
+        height: 4px !important;
+        background: #0066cc !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+
+    /* [2. 헤더: 하얀 배경 높이 아래로 확장] */
+    header {
+        height: 140px !important; /* 흰색 배경 영역을 아래로 늘림 */
+        background: #fff !important;
+        display: flex !important;
+        align-items: flex-start !important; /* 메뉴는 상단 배치 유지 */
+        padding-top: 15px !important;
+        overflow: visible !important;
+    }
+
+    body { 
+        padding-top: 140px !important; /* 늘어난 헤더 높이만큼 본문 밀기 */
+    }
+
+    /* [3. 회사소개: 삐뚤어진 정렬 정중앙으로 강제 고정] */
+    .sub-content .inner, 
+    .vision-content, 
+    .sub-title-area {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important; /* 모든 요소를 가로 정중앙 배치 */
+        text-align: center !important;  /* 글자 중앙 정렬 */
+        width: 100% !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+
+    /* 제목 아래 파란색 짧은 선도 정중앙으로 */
+    .sub-title-area h3::after {
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        margin-left: 0 !important;
+    }
+
+    /* [4. B2B 화살표: PC처럼 위아래 애니메이션 강제 활성화] */
+    .process-wrapper .step-line {
+        display: block !important;
+        visibility: visible !important;
+        width: 2px !important;
+        height: 50px !important;
+        background-color: #0066cc !important;
+        margin: 20px auto !important;
+        position: relative !important;
+        overflow: visible !important; /* 화살표가 선 밖으로 나가도 보이게 */
+    }
+
+    .process-wrapper .step-line::after {
+        content: '' !important;
+        display: block !important;
+        position: absolute !important;
+        bottom: -10px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        border-left: 6px solid transparent !important;
+        border-right: 6px solid transparent !important;
+        border-top: 10px solid #0066cc !important;
+        
+        /* PC에서 정의된 애니메이션 이름을 호출하여 위아래 무한 반복 */
+        animation: arrowUpDown 1.5s infinite ease-in-out !important;
+    }
+}
+
+/* 애니메이션 키프레임 (이미 있어도 한 번 더 선언하면 안전함) */
+@keyframes arrowUpDown {
+    0% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(10px); }
+    100% { transform: translateX(-50%) translateY(0); }
+}
+
+@media screen and (max-width: 768px) {
+    /* [1. 상단 남색 배경 높이 조절] */
+    .sub-hero {
+        height: 180px !important; /* 너무 길었던 배경 높이를 줄임 */
+        min-height: auto !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 0 !important;
+    }
+
+    .sub-hero .reveal {
+        margin-top: 0 !important; /* 내부 요소가 아래로 밀리지 않게 함 */
+    }
+
+    /* [2. "글로벌 수출 프로세스" 등 본문 글자 위쪽 간격 확보] */
+    .sub-content {
+        padding-top: 50px !important; /* 남색 배경과 본문 사이 여백을 충분히 줌 */
+    }
+
+    /* 회사소개 및 B2B 페이지의 전체적인 본문 시작점 조정 */
+    .sub-content .inner {
+        margin-top: 0 !important;
+    }
+
+    /* [3. 타이틀 글자 크기 미세 조정] */
+    .sub-hero h2 {
+        font-size: 28px !important; /* 너무 커서 길어 보일 수 있는 제목 크기 조절 */
+        margin-bottom: 5px !important;
+    }
+    
+    .sub-hero p {
+        font-size: 14px !important;
+        line-height: 1.4 !important;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    /* [1. 전체적인 가로 폭 확장] */
+    .inner {
+        width: 100% !important;
+        max-width: none !important; /* 고정 너비 제한 해제 */
+        padding-left: 15px !important;  /* 좌우 여백을 최소한으로 줄여 글자 공간 확보 */
+        padding-right: 15px !important;
+        box-sizing: border-box !important;
+    }
+
+    /* [2. 회사소개 및 B2B 본문 영역 넓히기] */
+    .sub-content .inner, 
+    .vision-content,
+    .vision-desc,
+    .main-vision-text {
+        width: 100% !important;
+        max-width: 100% !important; /* 좁게 설정된 max-width 강제 해제 */
+    }
+
+    /* [3. 텍스트 줄바꿈 최적화] */
+    .main-vision-text, .vision-desc, .sub-hero p {
+        word-break: keep-all !important; /* 단어 단위로 예쁘게 줄바꿈 */
+        overflow-wrap: break-word !important;
+        white-space: normal !important;
+        display: block !important;
+    }
+
+    /* [4. 상단 타이틀 영역 가로 폭 확보] */
+    .sub-hero .reveal {
+        width: 100% !important;
+        padding: 0 10px !important;
+    }
+
+    /* [5. 불필요하게 텍스트를 가두는 요소 해제] */
+    .contact-text, .process-wrapper {
+        width: 100% !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    /* [1. 메뉴 선 튕김 현상 제거 및 위치 고정] */
+    .gnb ul li a.active::after {
+        content: "" !important;
+        position: absolute !important;
+        
+        /* 위치를 아래쪽에 딱 고정 (숫자를 바꿔도 튕기지 않음) */
+        bottom: 0 !important; 
+        left: 0 !important;
+        
+        /* 튕기는 애니메이션 원인(transform, animation)을 강제로 끔 */
+        transform: none !important; 
+        animation: simpleFade 0.3s ease-in-out !important; 
+        
+        /* 선 스타일 */
+        width: 100% !important;
+        height: 4px !important;
+        background: #0066cc !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+
+    /* [2. 선이 제자리에서 나타나기만 하는 효과] */
+    @keyframes simpleFade {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    /* [3. 가로 폭 넉넉하게 확장 (글자 쏟아짐 방지)] */
+    .inner, .vision-content, .vision-desc, .main-vision-text {
+        width: 92% !important; /* 양옆에 아주 최소한의 여백만 남기고 꽉 채움 */
+        max-width: none !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        text-align: center !important;
+    }
+}
+
+
+
+
+@media screen and (max-width: 768px) {
+    /* [1. 로고 크기 확대] */
+    header h1.logo a {
+        font-size: 34px !important; 
+        font-weight: 800 !important;
+    }
+
+    /* [2. 메뉴 파란 선: 절대 튕김 방지 (완전 정지)] */
+    .gnb ul li a.active::after {
+        content: "" !important;
+        position: absolute !important;
+        /* 위치 고정 */
+        bottom: 0 !important; 
+        left: 0 !important;
+        width: 100% !important;
+        height: 4px !important;
+        background: #0066cc !important;
+
+        /* [핵심] 모든 움직임을 원천 봉쇄 */
+        display: block !important;
+        transform: none !important;        /* 위치 이동(튕김) 제거 */
+        transition: none !important;       /* 부드러운 이동 과정 제거 */
+        animation: none !important;        /* 기존 애니메이션(튕김) 삭제 */
+        
+        /* 나타날 때만 아주 살짝 투명도만 변경 */
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+
+    /* [3. 글자 쏟아짐 방지: 가로 폭 최대 확장] */
+    .inner, .vision-content, .vision-desc, .main-vision-text {
+        width: 94% !important; /* 글자가 옆으로 충분히 퍼지게 조절 */
+        max-width: none !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        text-align: center !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    /* [4. 상단 배경과 본문 사이 간격 늘리기] */
+    .sub-content {
+        padding-top: 70px !important; /* 남색 배경 아래 여백 충분히 확보 */
+    }
+
+    /* [5. B2B 화살표 애니메이션: 이건 PC처럼 움직여야 함] */
+    .process-wrapper .step-line::after {
+        animation: arrowUpDown 1.5s infinite ease-in-out !important;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    /* [1. 아이콘 크기 및 배경 확대] */
+    .process-item .icon {
+        font-size: 36px !important; /* 이모지 아이콘 크기 대폭 확대 */
+        width: 70px !important;    /* 아이콘을 감싸는 원의 가로 */
+        height: 70px !important;   /* 아이콘을 감싸는 원의 세로 */
+        line-height: 70px !important;
+        margin-bottom: 15px !important;
+        background: #f8f9fa !important; /* 배경색이 있다면 원형 유지 */
+        border-radius: 50% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    /* [2. 프로세스 제목 글자 확대] */
+    .process-item h4 {
+        font-size: 20px !important; /* '바이어 응대' 등 글자 크기 확대 */
+        font-weight: 700 !important;
+        color: #333 !important;
+        margin: 0 !important;
+        letter-spacing: -0.5px !important;
+    }
+
+    /* [3. 각 아이템 사이 간격 최적화] */
+    .process-item {
+        margin: 15px 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        width: 100% !important;
+    }
+
+    /* [4. 화살표(step-line) 길이 조절] */
+    .process-wrapper .step-line {
+        height: 40px !important; /* 아이템이 커진 만큼 화살표 길이를 적절히 조절 */
+        margin: 10px auto !important;
+    }
+
+    /* [참고] 메뉴 선 절대 튕김 방지 다시 한 번 강조 */
+    .gnb ul li a.active::after {
+        animation: none !important;
+        transition: none !important;
+        transform: none !important;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    /* [1. 모든 서브페이지 타이틀 하단 선 강제 노출] */
+    .sub-title-area h3::after {
+        content: "" !important;
+        display: block !important;
+        position: absolute !important;
+        bottom: -15px !important;
+        left: 50% !important; /* 중앙 정렬 */
+        transform: translateX(-50%) !important;
+        width: 40px !important; /* 선 길이 */
+        height: 3px !important; /* 선 두께 */
+        background-color: #0066cc !important;
+        
+        /* 숨김 처리(reveal) 무시하고 강제로 보여주기 */
+        opacity: 1 !important;
+        visibility: visible !important;
+        
+        /* PC처럼 왼쪽에서 오른쪽으로 슥 나타나는 애니메이션 추가 */
+        animation: lineGrowMobile 0.8s ease-out forwards !important;
+    }
+
+    /* [2. 모바일 전용 선 애니메이션 정의] */
+    @keyframes lineGrowMobile {
+        from {
+            width: 0;
+            opacity: 0;
+        }
+        to {
+            width: 40px;
+            opacity: 1;
+        }
+    }
+
+    /* [3. B2B 아이콘 및 글자 크기 최상단 고정] */
+    .process-item .icon {
+        font-size: 40px !important; /* 아이콘 더 크게 */
+        margin-bottom: 10px !important;
+    }
+    .process-item h4 {
+        font-size: 22px !important; /* 글자 더 크게 */
+        white-space: nowrap !important; /* 줄바꿈 방지 */
+    }
+}
